@@ -16,6 +16,11 @@ object ScalazArbitrary {
   import Gen._
   import ScalaCheckBinding._
 
+  // borrowed from ScalaCheck 1.12.4, for community build - ST 7/29/15
+  /** Arbitrary instance of the Future type */
+  implicit def arbFuture[T](implicit a: Arbitrary[T]): Arbitrary[scala.concurrent.Future[T]] =
+    Arbitrary(Gen.oneOf(arbitrary[T].map(scala.concurrent.Future.successful), arbitrary[Throwable].map(scala.concurrent.Future.failed)))
+
   private def arb[A: Arbitrary]: Arbitrary[A] = implicitly[Arbitrary[A]]
 
   implicit def monoidCoproductArbitrary[M: Arbitrary, N: Arbitrary]: Arbitrary[M :+: N] =
