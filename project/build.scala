@@ -139,14 +139,7 @@ object build extends Build {
       commitNextVersion,
       pushChanges
     ),
-
-    scalacheckVersion := {
-      val sv = scalaVersion.value
-      if (sv startsWith "2.12")
-        "1.11.6"
-      else
-        "1.11.4"
-    },
+    scalacheckVersion := "1.12.2",  // community-build friendly
     pomIncludeRepository := {
       x => false
     },
